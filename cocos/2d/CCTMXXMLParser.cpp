@@ -495,24 +495,24 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
             dict[key] = value;
         }
 
+		int width = attributeDict["width"].asInt();
+        int height = attributeDict["height"].asInt();
+        Size s(width, height);
+        s = CC_SIZE_PIXELS_TO_POINTS(s);
+        dict["width"] = Value(s.width);
+        dict["height"] = Value(s.height);
+
         // But X and Y since they need special treatment
         // X
         int x = attributeDict["x"].asInt();
         // Y
         int y = attributeDict["y"].asInt();
         
-        Vec2 p(x + objectGroup->getPositionOffset().x, 
-			   _mapSize.height * _tileSize.height - y - objectGroup->getPositionOffset().y/* - attributeDict["height"].asInt()*/);
+        Vec2 p(x + objectGroup->getPositionOffset().x + s.width / 2, 
+			   _mapSize.height * _tileSize.height - y - objectGroup->getPositionOffset().y + s.height / 2);
         p = CC_POINT_PIXELS_TO_POINTS(p);
         dict["x"] = Value(p.x);
         dict["y"] = Value(p.y);
-        
-        int width = attributeDict["width"].asInt();
-        int height = attributeDict["height"].asInt();
-        Size s(width, height);
-        s = CC_SIZE_PIXELS_TO_POINTS(s);
-        dict["width"] = Value(s.width);
-        dict["height"] = Value(s.height);
 
         // Add the object to the objectGroup
         objectGroup->getObjects().push_back(Value(dict));
