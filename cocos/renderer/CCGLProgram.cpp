@@ -33,11 +33,10 @@ THE SOFTWARE.
 #endif
 
 #include "base/CCDirector.h"
+#include "base/ccUTF8.h"
 #include "base/uthash.h"
 #include "renderer/ccGLStateCache.h"
 #include "platform/CCFileUtils.h"
-
-#include "deprecated/CCString.h"
 
 // helper functions
 
@@ -349,7 +348,7 @@ void GLProgram::parseVertexAttribs()
     else
     {
         GLchar ErrorLog[1024];
-        glGetProgramInfoLog(_program, sizeof(ErrorLog), NULL, ErrorLog);
+        glGetProgramInfoLog(_program, sizeof(ErrorLog), nullptr, ErrorLog);
         CCLOG("Error linking shader program: '%s'\n", ErrorLog);
     }
 }
@@ -407,7 +406,7 @@ void GLProgram::parseUniforms()
     else
     {
         GLchar ErrorLog[1024];
-        glGetProgramInfoLog(_program, sizeof(ErrorLog), NULL, ErrorLog);
+        glGetProgramInfoLog(_program, sizeof(ErrorLog), nullptr, ErrorLog);
         CCLOG("Error linking shader program: '%s'\n", ErrorLog);
 
     }
@@ -652,17 +651,17 @@ bool GLProgram::updateUniformLocation(GLint location, const GLvoid* data, unsign
     }
     else
     {
-        if (memcmp(element->second.first, data, bytes) == 0)
+        if (element->second.second < bytes)
         {
-            updated = false;
+            GLvoid* value = realloc(element->second.first, bytes);
+            memcpy(value, data, bytes);
+            _hashForUniforms[location] = std::make_pair(value, bytes);
         }
         else
         {
-            if (element->second.second < bytes)
+            if (memcmp(element->second.first, data, bytes) == 0)
             {
-                GLvoid* value = realloc(element->second.first, bytes);
-                memcpy(value, data, bytes );
-                _hashForUniforms[location] = std::make_pair(value, bytes);
+                updated = false;
             }
             else
                 memcpy(element->second.first, data, bytes);
@@ -906,9 +905,9 @@ void GLProgram::setUniformsForBuiltins(const Mat4 &matrixMV)
         // Getting Mach time per frame per shader using time could be extremely expensive.
         float time = _director->getTotalFrames() * _director->getAnimationInterval();
 
-        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_TIME], time/10.0, time, time*2, time*4);
-        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_SIN_TIME], time/8.0, time/4.0, time/2.0, sinf(time));
-        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_COS_TIME], time/8.0, time/4.0, time/2.0, cosf(time));
+        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_TIME], time/10.0f, time, time*2, time*4);
+        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_SIN_TIME], time/8.0f, time/4.0f, time/2.0f, sinf(time));
+        setUniformLocationWith4f(_builtInUniforms[GLProgram::UNIFORM_COS_TIME], time/8.0f, time/4.0f, time/2.0f, cosf(time));
     }
 
     if (_flags.usesRandom)
