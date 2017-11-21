@@ -81,4 +81,9 @@ Vec2 EventMouse::getDelta() const
 {     
     return getLocation() - getPreviousLocation();
 }
+
+EventMouse::MouseEventType EventMouse::getEventType() const
+{
+	return _mouseEventType;
+}
 NS_CC_END
