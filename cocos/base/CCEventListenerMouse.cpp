@@ -83,19 +83,31 @@ bool EventListenerMouse::init()
         {
             case EventMouse::MouseEventType::MOUSE_DOWN:
                 if(onMouseDown != nullptr)
-                    onMouseDown(mouseEvent);
+					if (onMouseDown(mouseEvent))
+					{
+						event->stopPropagation();
+					}
                 break;
             case EventMouse::MouseEventType::MOUSE_UP:
                 if(onMouseUp != nullptr)
-                    onMouseUp(mouseEvent);
+					if (onMouseUp(mouseEvent))
+					{
+						event->stopPropagation();
+					}
                 break;
             case EventMouse::MouseEventType::MOUSE_MOVE:
                 if(onMouseMove != nullptr)
-                    onMouseMove(mouseEvent);
+					if (onMouseMove(mouseEvent))
+					{
+						event->stopPropagation();
+					}
                 break;
             case EventMouse::MouseEventType::MOUSE_SCROLL:
                 if(onMouseScroll != nullptr)
-                    onMouseScroll(mouseEvent);
+					if (onMouseScroll(mouseEvent))
+					{
+						event->stopPropagation();
+					}
                 break;
             default:
                 break;

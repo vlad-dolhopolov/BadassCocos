@@ -177,7 +177,12 @@ public:
      * @js NA
      */
     Vec2 getStartLocationInView() const;
-
+	/** Returns event type.
+	*
+	* @return Type of the event.
+	* @js NA
+	*/
+	MouseEventType getEventType() const;
 
 private:
     MouseEventType _mouseEventType;

@@ -58,10 +58,10 @@ public:
     virtual EventListenerMouse* clone() override;
     virtual bool checkAvailable() override;
 
-    std::function<void(EventMouse* event)> onMouseDown;
-    std::function<void(EventMouse* event)> onMouseUp;
-    std::function<void(EventMouse* event)> onMouseMove;
-    std::function<void(EventMouse* event)> onMouseScroll;
+    std::function<bool(EventMouse* event)> onMouseDown;
+    std::function<bool(EventMouse* event)> onMouseUp;
+    std::function<bool(EventMouse* event)> onMouseMove;
+    std::function<bool(EventMouse* event)> onMouseScroll;
 
 CC_CONSTRUCTOR_ACCESS:
     EventListenerMouse();

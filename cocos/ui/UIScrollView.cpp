@@ -965,7 +965,7 @@ void ScrollView::handleMoveLogic(Touch *touch)
     {
         return;
     }
-    Vec3 delta3 = currPt - prevPt;
+    Vec3 delta3 = prevPt - currPt;
     Vec2 delta(delta3.x, delta3.y);
     scrollChildren(delta);
     
@@ -983,7 +983,7 @@ void ScrollView::handleReleaseLogic(Touch *touch)
         Vec3 currPt, prevPt;
         if(calculateCurrAndPrevTouchPoints(touch, &currPt, &prevPt))
         {
-            Vec3 delta3 = currPt - prevPt;
+            Vec3 delta3 = prevPt - currPt;
             Vec2 delta(delta3.x, delta3.y);
             gatherTouchMove(delta);
         }
@@ -1092,10 +1092,10 @@ void ScrollView::interceptTouchEvent(Widget::TouchEventType event, Widget *sende
             switch (_direction)
             {
                 case Direction::HORIZONTAL:
-                    offsetInInch = convertDistanceFromPointToInch(Vec2(std::abs(sender->getTouchBeganPosition().x - touchPoint.x), 0));
+                    offsetInInch = convertDistanceFromPointToInch(Vec2(std::abs(sender->getTouchBeganPosition().x + touchPoint.x), 0));
                     break;
                 case Direction::VERTICAL:
-                    offsetInInch = convertDistanceFromPointToInch(Vec2(0, std::abs(sender->getTouchBeganPosition().y - touchPoint.y)));
+                    offsetInInch = convertDistanceFromPointToInch(Vec2(0, std::abs(sender->getTouchBeganPosition().y + touchPoint.y)));
                     break;
                 case Direction::BOTH:
                     offsetInInch = convertDistanceFromPointToInch(sender->getTouchBeganPosition() - touchPoint);
