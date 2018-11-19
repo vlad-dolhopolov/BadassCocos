@@ -1185,16 +1185,16 @@ XMLElement::~XMLElement()
 }
 
 
-//XMLAttribute* XMLElement::FindAttribute( const char* name )
-//{
-//    XMLAttribute* a = 0;
-//    for( a=_rootAttribute; a; a = a->_next ) {
-//        if ( XMLUtil::StringEqual( a->Name(), name ) ) {
-//            return a;
-//        }
-//    }
-//    return 0;
-//}
+XMLAttribute* XMLElement::FindAttribute( const char* name )
+{
+    XMLAttribute* a = 0;
+    for( a=_rootAttribute; a; a = a->_next ) {
+        if ( XMLUtil::StringEqual( a->Name(), name ) ) {
+            return a;
+        }
+    }
+    return 0;
+}
 
 
 const XMLAttribute* XMLElement::FindAttribute( const char* name ) const
