@@ -43,10 +43,10 @@ public:
     MouseEventTest();
     ~MouseEventTest();
 
-    void onMouseDown(cocos2d::Event* event);
-    void onMouseUp(cocos2d::Event* event);
-    void onMouseMove(cocos2d::Event* event);
-    void onMouseScroll(cocos2d::Event* event);
+    bool onMouseDown(cocos2d::Event* event);
+	bool onMouseUp(cocos2d::Event* event);
+	bool onMouseMove(cocos2d::Event* event);
+	bool onMouseScroll(cocos2d::Event* event);
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

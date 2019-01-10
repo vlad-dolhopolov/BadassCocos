@@ -95,7 +95,7 @@ public:
         ScrollView::onTouchEnded(touch, event);
     }
 
-    void onMouseScroll(Event *event)
+    bool onMouseScroll(Event *event)
     {
         auto mouseEvent = static_cast<EventMouse*>(event);
         float moveY = mouseEvent->getScrollY() * 20;
@@ -115,6 +115,8 @@ public:
             offset.y = maxOffset.y;
         }
         this->setContentOffset(offset);
+
+		return true;
     }
 
 protected:
