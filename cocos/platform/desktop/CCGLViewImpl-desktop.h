@@ -113,6 +113,11 @@ public:
     /** Retina support is disabled by default
      *  @note This method is only available on Mac.
      */
+
+#if CC_CURSOR_SET_SUPPORT
+	virtual void setCustomCursor(const std::string& filename) override;
+#endif
+
     void enableRetina(bool enabled);
     /** Check whether retina display is enabled. */
     bool isRetinaEnabled() const { return _isRetinaEnabled; };
@@ -168,6 +173,10 @@ protected:
 
     float _mouseX;
     float _mouseY;
+
+#if CC_CURSOR_SET_SUPPORT
+	GLFWcursor* _cursor;
+#endif
 
     friend class GLFWEventHandler;
     

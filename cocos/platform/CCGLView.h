@@ -44,6 +44,10 @@ typedef void* id;
 #define CC_ICON_SET_SUPPORT true
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX) */
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+#define CC_CURSOR_SET_SUPPORT true
+#endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX) */
+
 /** There are some Resolution Policy for Adapt to the screen. */
 enum class ResolutionPolicy
 {
@@ -379,6 +383,8 @@ public:
      * On linux it will use default window icon.
      */
     virtual void setDefaultIcon() const {};
+
+	virtual void setCustomCursor(const std::string& filename) {};
 
     /**
      * Get the opengl view port rectangle.

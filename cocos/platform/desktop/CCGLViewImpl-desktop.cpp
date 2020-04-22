@@ -207,6 +207,9 @@ GLViewImpl::GLViewImpl(bool initglfw)
 , _monitor(nullptr)
 , _mouseX(0.0f)
 , _mouseY(0.0f)
+#if CC_CURSOR_SET_SUPPORT
+, _cursor(nullptr)
+#endif
 {
     _viewName = "cocos2dx";
     g_keyCodeMap.clear();
@@ -228,6 +231,10 @@ GLViewImpl::~GLViewImpl()
     CCLOGINFO("deallocing GLViewImpl: %p", this);
     GLFWEventHandler::setGLViewImpl(nullptr);
     glfwTerminate();
+
+#if CC_CURSOR_SET_SUPPORT
+	glfwDestroyCursor(_cursor);
+#endif
 }
 
 GLViewImpl* GLViewImpl::create(const std::string& viewName)
@@ -514,6 +521,37 @@ void GLViewImpl::setCursorVisible( bool isVisible )
     else
         glfwSetInputMode(_mainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }
+
+#if CC_CURSOR_SET_SUPPORT
+void GLViewImpl::setCustomCursor(const std::string& filename)
+{
+	if (_mainWindow == NULL || filename.empty())
+	{
+		return;
+	}
+
+	auto img = new Image();
+	if (img && img->initWithImageFile(filename)) 
+	{
+		auto glfwImg	= new GLFWimage();
+		glfwImg->width	= img->getWidth();
+		glfwImg->height = img->getHeight();
+		glfwImg->pixels = img->getData(); 
+
+		_cursor = glfwCreateCursor(glfwImg, 0, 0);
+		if (_cursor != NULL)
+		{
+			glfwSetCursor(_mainWindow, _cursor);
+		}
+
+		CC_SAFE_DELETE(img);
+	}
+	else 
+	{
+		CC_SAFE_DELETE(img);
+	}
+}
+#endif
 
 void GLViewImpl::setFrameZoomFactor(float zoomFactor)
 {
